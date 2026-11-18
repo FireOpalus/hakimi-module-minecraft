@@ -111,6 +111,8 @@ class MinecraftSlotModule(BaseModule):
     """Tracks sanitized remote Mineflayer snapshots and publishes MilestoneEvents."""
 
     module_id: str = "minecraft"
+    display_name = "Minecraft"
+    description = "游戏连接、活动目标与建造计划"
     node_region: NodeRegion = "CN"
     attention_level: AttentionLevel = "HIGH"
 
@@ -449,6 +451,9 @@ class MinecraftSlotModule(BaseModule):
         if snap.recent_chat_or_sign:
             parts.append(f"见闻:{snap.recent_chat_or_sign}")
         return " ".join(parts)
+
+    def admin_status(self, request):
+        return self.status_dict()
 
     def status_dict(self) -> dict[str, Any]:
         """Return a strictly sanitized status dictionary for /admin and telemetry."""
