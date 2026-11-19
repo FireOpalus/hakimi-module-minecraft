@@ -152,19 +152,19 @@ class MinecraftSlotModule(BaseModule):
 
     def actions(self) -> tuple[Action, ...]:
         verbs = {
-            "build_plan": ("登记建造计划", BuildArgs),
-            "explore": ("在游戏中探索", NoArgs),
-            "mine": ("采矿", BlockArgs),
-            "gather": ("采集", BlockArgs),
-            "goto": ("前往坐标", PositionArgs),
-            "follow": ("跟随指定玩家", FollowArgs),
-            "observe": ("观察周围", NoArgs),
-            "look_signs": ("查看告示牌", NoArgs),
-            "stop": ("停止当前行为", NoArgs),
-            "idle": ("原地待机", NoArgs),
-            "status": ("读取桥及游戏状态", NoArgs),
-            "pause": ("暂停游戏动作", NoArgs),
-            "resume": ("恢复游戏动作", NoArgs),
+            "build_plan": ("在记事本里记下接下来想在 Minecraft 里搭的建筑点子", BuildArgs),
+            "explore": ("在 Minecraft 世界里四处探索地形与新发现", NoArgs),
+            "mine": ("在游戏里挖掘指定矿石或方块", BlockArgs),
+            "gather": ("在游戏里收集指定资源方块", BlockArgs),
+            "goto": ("在游戏里前往指定坐标位置", PositionArgs),
+            "follow": ("在游戏里跟随指定玩家一起行动", FollowArgs),
+            "observe": ("在游戏里环顾观察周围环境与生物", NoArgs),
+            "look_signs": ("在游戏里查看附近的告示牌文字", NoArgs),
+            "stop": ("停下当前正在执行的 Minecraft 动作", NoArgs),
+            "idle": ("在已连线的游戏世界里原地待机歇会儿", NoArgs),
+            "status": ("读取桥接与游戏实时状态", NoArgs),
+            "pause": ("暂停游戏自主动作", NoArgs),
+            "resume": ("恢复游戏自主动作", NoArgs),
         }
 
         def declare(verb, description, schema):
@@ -224,10 +224,7 @@ class MinecraftSlotModule(BaseModule):
             return "mc_bridge_disconnected"
         if self.paused and verb not in {"stop", "idle", "resume", "pause"}:
             return "mc_paused"
-        if (
-            verb not in {"build_plan", "idle", "stop", "pause", "resume"}
-            and not self.snapshot.connected
-        ):
+        if verb not in {"build_plan", "pause", "resume"} and not self.snapshot.connected:
             return "mc_server_not_connected"
         return None
 

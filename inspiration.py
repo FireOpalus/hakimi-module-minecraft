@@ -24,7 +24,7 @@ def build_from_video(event: MilestoneEvent) -> Reaction | None:
     ):
         return Reaction(
             "mc.build_plan",
-            "根据已看视频登记建造灵感",
+            "刚刷到对胃口的 MC 视频，顺手记下想搭的建造灵感",
             ttl=7200,
             arguments={"topic": topic[:80]},
             legacy_module="minecraft",
