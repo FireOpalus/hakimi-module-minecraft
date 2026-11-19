@@ -111,6 +111,7 @@ class MinecraftSlotModule(BaseModule):
     """Tracks sanitized remote Mineflayer snapshots and publishes MilestoneEvents."""
 
     module_id: str = "minecraft"
+    admin_panel = "minecraft"
     display_name = "Minecraft"
     description = "游戏连接、活动目标与建造计划"
     node_region: NodeRegion = "CN"
@@ -144,7 +145,8 @@ class MinecraftSlotModule(BaseModule):
             await self.sync_node_switch()
 
     def event_rules(self):
-        from ..life_rules import Rule, build_from_video
+        from hakimi.life_rules import Rule
+        from hakimi.modules.platforms.minecraft.inspiration import build_from_video
 
         return (Rule("bili.build_inspiration", build_from_video),)
 
@@ -205,6 +207,7 @@ class MinecraftSlotModule(BaseModule):
                 description=description,
                 run=dispatch,
                 arguments=schema,
+                effortful=verb in {"explore", "goto", "mine", "gather", "follow"},
                 origins=frozenset({"admin"}) if admin_only else AUTONOMOUS | {"admin"},
                 unavailable=lambda: self.action_unavailable(verb),
                 aliases=() if admin_only else (("minecraft", verb, False),),
